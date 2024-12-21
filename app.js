@@ -31,7 +31,7 @@ function kelvinToC(kelvin) {
 
 // Fetching weather data from API using the city name
 async function fetchWeather() {
-    let URL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityElement}&APPID=8f86abe808197d8328c9f318bd25ec16`;
+    let URL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityElement}&APPID=${apiKey}`;
     let response = await fetch(URL);
     let data = await response.json();
     console.log(response.status, cityElement);
