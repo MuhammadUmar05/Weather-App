@@ -13,14 +13,14 @@ let forecastedTemps = document.querySelectorAll(".forecastedTemps");
 let maxTemp, minTemp, weatherCondition;
 let backgroundImg = document.querySelector("#weatherDetails");
 let form = document.querySelector("form");
-let cityElement = "karachi";
-
+let cityElement = localStorage.getItem("city") ?? "karachi";
+saveData()
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     let inputField = document.querySelector("#cityInput");
-    let inputVal = inputField.value;
-    cityElement = inputVal;
+    cityElement = inputField.value ?? "Karachi";
+    saveData();
     displayData(); // Call displayData function to refresh the weather data based on city
 });
 
@@ -31,11 +31,9 @@ function kelvinToC(kelvin) {
 
 // Fetching weather data from API using the city name
 async function fetchWeather() {
-    let URL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityElement}&APPID=${apiKey}`;
+    let URL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityElement}&APPID=${API_KEY}`;
     let response = await fetch(URL);
     let data = await response.json();
-    console.log(response.status, cityElement);
-
     return data;
 }
 // Function to get the current time of the required city using its coordinates
@@ -134,5 +132,10 @@ function checkIcon(condition, iconCode, weatherIcon) {
         weatherIcon.src = "asset/haze.png"
     }
 }
+// To save the searched city name in local storage
+function saveData() {
+    localStorage.setItem("city", cityElement);
+}
+
 // Call displayData to initialize and show the weather data when the page loads
 displayData();
